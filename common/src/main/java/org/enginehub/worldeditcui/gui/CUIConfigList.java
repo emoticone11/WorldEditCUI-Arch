@@ -4,18 +4,21 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.logging.LogUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+// import net.minecraft.client.gui.Gui;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.gui.components.StringWidget;
-import net.minecraft.client.gui.components.Tooltip;
+// import net.minecraft.client.gui.components.StringWidget;
+// import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.util.FormattedCharSequence;
 import org.enginehub.worldeditcui.config.CUIConfiguration;
 import org.enginehub.worldeditcui.config.Colour;
@@ -78,11 +81,11 @@ public class CUIConfigList extends ContainerObjectSelectionList<CUIConfigList.Co
         }
 
         @Override
-        public void render(GuiGraphics gfx, int index, int top, int left, int width, int height, int mouseX, int mouseY, boolean isMouseOver, float partialTick) {
+        public void render(PoseStack gfx, int index, int top, int left, int width, int height, int mouseX, int mouseY, boolean isMouseOver, float partialTick) {
             super.render(gfx, index, top, left, width, height, mouseX, mouseY, isMouseOver, partialTick);
 
-            this.toggleBotton.setX(left + 105);
-            this.toggleBotton.setY(top);
+            // this.toggleBotton.setX(left + 105);
+            // this.toggleBotton.setY(top);
             this.toggleBotton.render(gfx, mouseX, mouseY, partialTick);
         }
 
@@ -109,7 +112,7 @@ public class CUIConfigList extends ContainerObjectSelectionList<CUIConfigList.Co
             super(tag);
 
             Colour cValue = (Colour)configuration.getConfigArray().get(tag);
-            textField = new EditBox(CUIConfigList.this.minecraft.font, 0, 0, BUTTON_WIDTH, BUTTON_HEIGHT, Component.literal(cValue.hexString()));
+            textField = new EditBox(CUIConfigList.this.minecraft.font, 0, 0, BUTTON_WIDTH, BUTTON_HEIGHT, new TextComponent(cValue.hexString()));
             textField.setMaxLength(9); // # + 8 hex chars
             textField.setValue(cValue.hexString());
             textField.setResponder(updated -> {
@@ -147,10 +150,10 @@ public class CUIConfigList extends ContainerObjectSelectionList<CUIConfigList.Co
         }
 
         @Override
-        public void render(GuiGraphics gfx, int index, int top, int left, int width, int height, int mouseX, int mouseY, boolean isMouseOver, float partialTick) {
+        public void render(PoseStack gfx, int index, int top, int left, int width, int height, int mouseX, int mouseY, boolean isMouseOver, float partialTick) {
             super.render(gfx, index, top, left, width, height, mouseX, mouseY, isMouseOver, partialTick);
             this.textField.setX(left + 105);
-            this.textField.setY(top);
+            // this.textField.setY(top);
             this.textField.render(gfx, mouseX, mouseY, partialTick);
         }
 
@@ -173,34 +176,36 @@ public class CUIConfigList extends ContainerObjectSelectionList<CUIConfigList.Co
     public abstract class ConfigEntry extends ContainerObjectSelectionList.Entry<ConfigEntry> {
         protected final String tag;
         protected final Button resetButton;
-        protected final StringWidget textField;
+        // protected final StringWidget textField;
+        protected final EditBox textField;
 
         public ConfigEntry(String tag) {
             this.tag = tag;
 
-            this.resetButton = Button.builder(Component.translatable("controls.reset"), (button) -> {
+            this.resetButton = new Button(0, 0, 50, BUTTON_HEIGHT, new TranslatableComponent("controls.reset"), (button) -> {
                 configuration.changeValue(tag, configuration.getDefaultValue(tag));
                 updateFromConfig();
-            }).bounds(0, 0, 50, BUTTON_HEIGHT).build();
+            });
 
-            textField = new StringWidget(configuration.getDescription(tag), minecraft.font);
-            textField.alignLeft();
-            Component tooltip = configuration.getTooltip(tag);
-            if (tooltip != null) {
-                textField.setTooltip(Tooltip.create(tooltip));
-            }
+            textField = new EditBox(minecraft.font, 0, 0, BUTTON_WIDTH, BUTTON_HEIGHT, configuration.getDescription(tag));
+            // textField = new StringWidget(configuration.getDescription(tag), minecraft.font); // TODO
+            // textField.alignLeft(); // TODO
+            // Component tooltip = configuration.getTooltip(tag);
+            // if (tooltip != null) {
+            //     textField.setTooltip(Tooltip.create(tooltip)); // TODO
+            // }
 
         }
         @Override
-        public void render(GuiGraphics gfx, int index, int top, int left, int width, int height, int mouseX, int mouseY, boolean isMouseOver, float partialTick) {
+        public void render(PoseStack gfx, int index, int top, int left, int width, int height, int mouseX, int mouseY, boolean isMouseOver, float partialTick) {
             int textLeft = left + 90 - maxNameWidth;
 
             this.textField.setX(textLeft);
-            this.textField.setY(top);
+            // this.textField.setY(top);
             this.textField.render(gfx, mouseX, mouseY, partialTick);
 
-            this.resetButton.setX(left + 190);
-            this.resetButton.setY(top);
+            // this.resetButton.setX(left + 190);
+            // this.resetButton.setY(top);
             this.resetButton.render(gfx, mouseX, mouseY, partialTick);
         }
 

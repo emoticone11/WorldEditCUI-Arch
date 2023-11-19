@@ -8,6 +8,8 @@ import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.KeybindComponent;
 import net.minecraft.network.chat.Style;
 import org.enginehub.worldeditcui.InitialisationFactory;
 import org.enginehub.worldeditcui.render.ConfiguredColour;
@@ -238,18 +240,18 @@ public final class CUIConfiguration implements InitialisationFactory {
 		String key = getKey(text);
 		if (key == null) return null;
 		if (text.equals("clearAllOnKey")) {
-			return Component.translatable(key + ".tooltip",
-					Component.translatable("key.worldeditcui.clear"),
-					Component.keybind("key.worldeditcui.clear").withStyle(Style.EMPTY.withItalic(true))
+			return new TranslatableComponent(key + ".tooltip",
+					new TranslatableComponent("key.worldeditcui.clear"),
+					new KeybindComponent("key.worldeditcui.clear").withStyle(Style.EMPTY.withItalic(true))
 			);
 		}
-		return Component.translatable(key + ".tooltip");
+		return new TranslatableComponent(key + ".tooltip");
 	}
 	
 	public @Nullable Component getDescription(String text) {
 		String key = getKey(text);
 		if (key == null) return null;
-		return Component.translatable(key);
+		return new TranslatableComponent(key);
 	}
 
 	private @Nullable String getKey(String text) {
