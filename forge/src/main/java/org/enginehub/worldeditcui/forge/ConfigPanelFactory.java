@@ -1,6 +1,6 @@
 package org.enginehub.worldeditcui.forge;
 
-import net.minecraftforge.client.ConfigScreenHandler;
+import net.minecraftforge.client.ConfigGuiHandler;
 import org.enginehub.worldeditcui.gui.CUIConfigPanel;
 
 /**
@@ -8,8 +8,8 @@ import org.enginehub.worldeditcui.gui.CUIConfigPanel;
  */
 public final class ConfigPanelFactory {
 
-    public static ConfigScreenHandler.ConfigScreenFactory getFactory() {
-        return new ConfigScreenHandler.ConfigScreenFactory((mc, screen) ->
+    public static ConfigGuiHandler.ConfigGuiFactory getFactory() {
+        return new ConfigGuiHandler.ConfigGuiFactory((mc, screen) ->
                 new CUIConfigPanel(screen, WorldEditCUIForgeClient.getInstance().getController().getConfiguration()));
     }
 }

@@ -11,8 +11,8 @@ import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.event.TickEvent;
@@ -93,10 +93,10 @@ public class WorldEditCUIForgeClient {
     public static class ModEventBusListener {
 
         @SubscribeEvent
-        public static void registerBindings(RegisterKeyMappingsEvent event) {
-            event.register(instance.keyBindToggleUI.get());
-            event.register(instance.keyBindChunkBorder.get());
-            event.register(instance.keyBindClearSel.get());
+        public static void registerBindings(FMLClientSetupEvent event) {
+            ClientRegistry.registerKeyBinding(instance.keyBindToggleUI.get());
+            ClientRegistry.registerKeyBinding(instance.keyBindChunkBorder.get());
+            ClientRegistry.registerKeyBinding(instance.keyBindClearSel.get());
         }
     }
 
@@ -111,7 +111,7 @@ public class WorldEditCUIForgeClient {
         }
 
         @SubscribeEvent
-        public static void onPlayerJoin(ClientPlayerNetworkEvent.LoggingIn event) {
+        public static void onPlayerJoin(ClientPlayerNetworkEvent.LoggedInEvent event) {
             if (instance.controller == null) return;
             getInstance().onJoinGame(event.getPlayer().connection);
         }
@@ -121,8 +121,6 @@ public class WorldEditCUIForgeClient {
             if (instance.controller == null) return;
             if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_PARTICLES) {
                 boolean advancedTranslucency = ((LevelRendererAccessor)event.getLevelRenderer()).getTransparencyChain() != null;
-
-            } else if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_LEVEL) {
 
             }
         }
@@ -140,7 +138,7 @@ public class WorldEditCUIForgeClient {
 
             while (this.keyBindClearSel.get().consumeClick()) {
                 if (mc.player != null) {
-                    mc.player.connection.sendUnsignedCommand("/sel");
+                    mc.player.chat("/sel");
                 }
 
                 if (config.isClearAllOnKey()) {
@@ -163,7 +161,7 @@ public class WorldEditCUIForgeClient {
                 this.helo(mc.getConnection());
                 this.delayedHelo = WorldEditCUIForgeClient.DELAYED_HELO_TICKS;
                 if (mc.player != null && config.isPromiscuous()) {
-                    mc.player.connection.sendUnsignedCommand("we cui"); // Tricks WE to send the current selection
+                    mc.player.chat("/we cui"); // Tricks WE to send the current selection
                 }
             }
 
