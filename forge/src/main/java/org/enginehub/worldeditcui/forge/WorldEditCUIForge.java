@@ -22,13 +22,6 @@ public class WorldEditCUIForge {
             ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class,
                     ConfigPanelFactory::getFactory);
 
-                    // ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class,
-                    // () -> new ConfigGuiHandler.ConfigGuiFactory(new BiFunction<Minecraft, Screen, Screen>() {
-                    //     @Override
-                    //     public Screen apply(Minecraft mc, Screen screen) {
-                    //         return new MyConfigGuiScreen();
-                    // }));
-
             eventBus.register(WorldEditCUIForgeClient.ModEventBusListener.class);
             MinecraftForge.EVENT_BUS.register(WorldEditCUIForgeClient.ForgeEventBusListener.class);
         });
