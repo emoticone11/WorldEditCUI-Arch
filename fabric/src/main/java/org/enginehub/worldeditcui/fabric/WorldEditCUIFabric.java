@@ -129,7 +129,7 @@ public final class WorldEditCUIFabric implements ModInitializer {
 
             while (this.keyBindClearSel.consumeClick()) {
                 if (mc.player != null) {
-                    mc.player.chat("/sel");
+                    mc.player.chat("//sel");
                 }
 
                 if (config.isClearAllOnKey()) {
