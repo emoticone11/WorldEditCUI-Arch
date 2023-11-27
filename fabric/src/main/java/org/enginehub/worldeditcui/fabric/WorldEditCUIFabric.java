@@ -92,7 +92,7 @@ public final class WorldEditCUIFabric implements ModInitializer {
             if (ctx.advancedTranslucency()) {
                 try {
                     RenderSystem.getModelViewStack().pushPose();
-                    RenderSystem.getModelViewStack().mulPoseMatrix(ctx.matrixStack().last().pose());
+                    // RenderSystem.getModelViewStack().mulPoseMatrix(ctx.matrixStack().last().pose());
                     RenderSystem.applyModelViewMatrix();
                     ctx.worldRenderer().getTranslucentTarget().bindWrite(false);
                     this.onPostRenderEntities(ctx);
@@ -106,7 +106,7 @@ public final class WorldEditCUIFabric implements ModInitializer {
             if (!ctx.advancedTranslucency()) {
                 try {
                     RenderSystem.getModelViewStack().pushPose();
-                    RenderSystem.getModelViewStack().mulPoseMatrix(ctx.matrixStack().last().pose());
+                    // RenderSystem.getModelViewStack().mulPoseMatrix(ctx.matrixStack().last().pose());
                     RenderSystem.applyModelViewMatrix();
                     this.onPostRenderEntities(ctx);
                 } finally {

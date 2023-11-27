@@ -212,7 +212,7 @@ public class WorldEditCUIForgeClient {
         if (advancedTranslucency) {
             try {
                 RenderSystem.getModelViewStack().pushPose();
-                RenderSystem.getModelViewStack().mulPoseMatrix(poseStack.last().pose());
+                // RenderSystem.getModelViewStack().mulPoseMatrix(poseStack.last().pose());
                 RenderSystem.applyModelViewMatrix();
                 Minecraft.getInstance().levelRenderer.getTranslucentTarget().bindWrite(false);
                 getInstance().onPostRenderEntities(partialTick);
@@ -228,7 +228,7 @@ public class WorldEditCUIForgeClient {
         if (!advancedTranslucency) {
             try {
                 RenderSystem.getModelViewStack().pushPose();
-                RenderSystem.getModelViewStack().mulPoseMatrix(poseStack.last().pose());
+                // RenderSystem.getModelViewStack().mulPoseMatrix(poseStack.last().pose());
                 RenderSystem.applyModelViewMatrix();
                 getInstance().onPostRenderEntities(partialTick);
             } finally {
